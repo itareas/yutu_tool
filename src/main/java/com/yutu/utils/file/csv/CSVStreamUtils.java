@@ -30,8 +30,9 @@ public class CSVStreamUtils {
         List<Map<String, Object>> dateList = new ArrayList<>();
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
         File file = new File(filePath);
+
+        FileInputStream fileInputStream = null;
         if (file.isFile() && file.exists()) {
-            FileInputStream fileInputStream = null;
             try {
                 fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
@@ -139,8 +140,8 @@ public class CSVStreamUtils {
     public static List<List<Double>> readCsv(String filePath, String split, int index) {
         File file = new File(filePath);
         List<List<Double>> dataList = new ArrayList<>();
+        FileInputStream fileInputStream = null;
         if (file.isFile() && file.exists()) {
-            FileInputStream fileInputStream=null;
             try {
                 fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
@@ -165,8 +166,8 @@ public class CSVStreamUtils {
                 fileInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
-                if(fileInputStream!=null){
+            } finally {
+                if (fileInputStream != null) {
                     try {
                         fileInputStream.close();
                     } catch (IOException e) {
@@ -208,7 +209,7 @@ public class CSVStreamUtils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(csvWtriter!=null) {
+            if (csvWtriter != null) {
                 try {
                     csvWtriter.close();
                 } catch (IOException e) {

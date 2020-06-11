@@ -1,18 +1,16 @@
 package com.yutu.utils.file;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * @Author: zhaobc
  * @Date: 2020-03-04 18:20
- * @Description:
+ * @Description:小文件的读取应用
  */
 public class ReadFileUtils {
     private static Logger logger = Logger.getLogger(ReadFileUtils.class);
@@ -23,25 +21,29 @@ public class ReadFileUtils {
      * @Description: 只读取文件
      **/
     public static String readTxt(String txtPath) {
+        FileInputStream fileInputStream = null;
+        String result = null;
         File file = new File(txtPath);
         if (file.isFile() && file.exists()) {
-            FileInputStream fileInputStream = null;
             try {
+                //读取文件打成流
                 fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
+                //写入数据
                 StringBuffer sb = new StringBuffer();
                 String text = null;
                 while ((text = bufferedReader.readLine()) != null) {
                     sb.append(text + "\r\n");
                 }
-                //一定要释放资源
+                result = sb.toString();
+                //最释放放资源
                 fileInputStream.close();
-                return sb.toString();
             } catch (Exception e) {
+                logger.error("===================>ReadFileUtils.readTxt:" + e);
                 e.printStackTrace();
             } finally {
+                //判断是否释放干净
                 if (fileInputStream != null) {
                     try {
                         fileInputStream.close();
@@ -51,7 +53,7 @@ public class ReadFileUtils {
                 }
             }
         }
-        return null;
+        return result;
     }
 
 
@@ -62,10 +64,10 @@ public class ReadFileUtils {
      **/
     public static void writeTxt(String txtPath, String content) {
         FileOutputStream fileOutputStream = null;
-        File file = new File(txtPath);
         try {
+            File file = new File(txtPath);
+            //判断文件是否存在，如果不存在就新建
             if (file.exists()) {
-                //判断文件是否存在，如果不存在就新建一个txt
                 file.createNewFile();
             }
             fileOutputStream = new FileOutputStream(file);
@@ -74,6 +76,7 @@ public class ReadFileUtils {
             fileOutputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("===================>ReadFileUtils.writeTxt:" + e);
         } finally {
             if (fileOutputStream != null) {
                 try {
@@ -88,23 +91,10 @@ public class ReadFileUtils {
     /**
      * @Author: zhaobc
      * @Date: 2020/6/10 18:37
-     * @Description: 文件拷贝功能
+     * @Description: 文件拷贝功能, 使用commoms工具类
      **/
     public static void copyFileStreams(File source, File dest) throws IOException {
-        InputStream input = null;
-        OutputStream output = null;
-        try {
-            input = new FileInputStream(source);
-            output = new FileOutputStream(dest);
-            byte[] buf = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = input.read(buf)) > 0) {
-                output.write(buf, 0, bytesRead);
-            }
-        } finally {
-            input.close();
-            output.close();
-        }
+        FileUtils.copyFile(source, dest);
     }
 
     /**
@@ -113,9 +103,10 @@ public class ReadFileUtils {
      * @Description: 读取文件并根据map进行替换
      **/
     public static String readTxtByReplace(String txtPath, Map<String, String> map) {
+        FileInputStream fileInputStream = null;
+        String result = null;
         File file = new File(txtPath);
         if (file.isFile() && file.exists()) {
-            FileInputStream fileInputStream = null;
             try {
                 fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
@@ -137,9 +128,9 @@ public class ReadFileUtils {
                         sb.append(text + "\r\n");
                     }
                 }
+                result = sb.toString();
                 //释放资源
                 fileInputStream.close();
-                return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -152,6 +143,6 @@ public class ReadFileUtils {
                 }
             }
         }
-        return null;
+        return result;
     }
 }
