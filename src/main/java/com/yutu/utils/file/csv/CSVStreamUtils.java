@@ -31,8 +31,9 @@ public class CSVStreamUtils {
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
         File file = new File(filePath);
         if (file.isFile() && file.exists()) {
+            FileInputStream fileInputStream = null;
             try {
-                FileInputStream fileInputStream = new FileInputStream(file);
+                fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 //设置index
@@ -55,12 +56,21 @@ public class CSVStreamUtils {
                     }
                     i++;
                 }
-                return dateList;
+                //释放资源
+                fileInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
-        return null;
+        return dateList;
     }
 
     /**
@@ -104,14 +114,18 @@ public class CSVStreamUtils {
                 csvWtriter.newLine();
             }
             csvWtriter.flush();
+            //释放资源
+            csvWtriter.close();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         } finally {
-            try {
-                csvWtriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (csvWtriter != null) {
+                try {
+                    csvWtriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return true;
@@ -126,8 +140,9 @@ public class CSVStreamUtils {
         File file = new File(filePath);
         List<List<Double>> dataList = new ArrayList<>();
         if (file.isFile() && file.exists()) {
+            FileInputStream fileInputStream=null;
             try {
-                FileInputStream fileInputStream = new FileInputStream(file);
+                fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -146,13 +161,21 @@ public class CSVStreamUtils {
                     }
                     i++;
                 }
-                System.out.print("========>" + JSON.toJSON(dataList));
-                return dataList;
+                //释放资源
+                fileInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            }finally {
+                if(fileInputStream!=null){
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
-        return null;
+        return dataList;
     }
 
     /**
@@ -180,13 +203,17 @@ public class CSVStreamUtils {
                 writeRow(row, csvWtriter);
             }
             csvWtriter.flush();
+            //释放资源
+            csvWtriter.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                csvWtriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(csvWtriter!=null) {
+                try {
+                    csvWtriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return csvFile;

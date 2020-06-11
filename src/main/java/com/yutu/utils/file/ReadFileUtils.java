@@ -25,8 +25,9 @@ public class ReadFileUtils {
     public static String readTxt(String txtPath) {
         File file = new File(txtPath);
         if (file.isFile() && file.exists()) {
+            FileInputStream fileInputStream = null;
             try {
-                FileInputStream fileInputStream = new FileInputStream(file);
+                fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -35,9 +36,19 @@ public class ReadFileUtils {
                 while ((text = bufferedReader.readLine()) != null) {
                     sb.append(text + "\r\n");
                 }
+                //一定要释放资源
+                fileInputStream.close();
                 return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         return null;
@@ -63,6 +74,14 @@ public class ReadFileUtils {
             fileOutputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -96,8 +115,9 @@ public class ReadFileUtils {
     public static String readTxtByReplace(String txtPath, Map<String, String> map) {
         File file = new File(txtPath);
         if (file.isFile() && file.exists()) {
+            FileInputStream fileInputStream = null;
             try {
-                FileInputStream fileInputStream = new FileInputStream(file);
+                fileInputStream = new FileInputStream(file);
                 InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -117,9 +137,19 @@ public class ReadFileUtils {
                         sb.append(text + "\r\n");
                     }
                 }
+                //释放资源
+                fileInputStream.close();
                 return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         return null;
