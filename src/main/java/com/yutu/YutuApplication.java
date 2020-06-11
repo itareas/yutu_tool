@@ -1,9 +1,13 @@
 package com.yutu;
 
+import com.yutu.utils.file.CSVUtils;
 import com.yutu.utils.file.FileOperationUtils;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FileUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +16,7 @@ import java.util.Map;
 public class YutuApplication {
 
     public static void main(String[] args) throws IOException {
-       List<Map<String,Object>> mapList= FileOperationUtils.readCsv("C:\\Users\\yutu897\\Documents\\263EM\\zhaobc@mapuni.com\\receive_file\\2020RANK(ALL)_NO3_24HR_CONC.CSV.csv",",",5,null);
-        //springboot启动
-                SpringApplication.run(YutuApplication.class, args);
+        SpringApplication.run(YutuApplication.class, args);
     }
 
 }

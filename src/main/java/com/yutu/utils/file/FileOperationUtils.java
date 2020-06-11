@@ -277,10 +277,29 @@ public class FileOperationUtils {
     /**
      * @Author: zhaobc
      * @Date: 2020/6/10 18:37
-     * @Description: 文件拷贝功能, 使用commoms工具类
+     * @Description: 文件拷贝功能, IO原生
      **/
     public static void copyFileStreams(File source, File dest) throws IOException {
-        org.apache.commons.io.FileUtils.copyFile(source, dest);
+        InputStream input = null;
+        OutputStream output = null;
+        try {
+            input = new FileInputStream(source);
+            output = new FileOutputStream(dest);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buf)) > 0) {
+                output.write(buf, 0, bytesRead);
+            }
+            input.close();
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (input != null || output != null) {
+                input.close();
+                output.close();
+            }
+        }
     }
 
     /**
