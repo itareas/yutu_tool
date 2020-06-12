@@ -23,7 +23,7 @@ public class AESUtils<T> {
 
     private static final String KEY_ALGORITHM = "AES";
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";//默认的加密算法
-    private static final String AES_KEY = "#ZBC&zjx@20170403_.Love_V1.0!";
+        private static final String AES_KEY = "#ZBC&zjx@20170403_.Love_V1.0!";
 
     /**
      * @Author: zhaobc
@@ -188,7 +188,10 @@ public class AESUtils<T> {
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return null;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

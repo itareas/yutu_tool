@@ -183,7 +183,7 @@ public class FileOperationUtils {
      * @Date: 2020/5/25 11:38
      * @Description: 只读取文件
      **/
-    public static List<List<Double>> readCsv(String filePath, String split, int index) {
+    public static List<List<Double>> readCsv(String filePath, String split, int rowIndex, int[] colIndexs) {
         File file = new File(filePath);
         List<List<Double>> dataList = new ArrayList<>();
         if (file.isFile() && file.exists()) {
@@ -197,11 +197,10 @@ public class FileOperationUtils {
                 while ((text = bufferedReader.readLine()) != null) {
                     List<Double> data = new ArrayList<>();
                     String[] strDatas = text.split(split);
-                    if (i > index && strDatas[0] != null) {
-                        data.add(Double.parseDouble(strDatas[2]));
-                        data.add(Double.parseDouble(strDatas[3]));
-                        data.add(Double.parseDouble(strDatas[4]));
-                        sb.append(text + "\r\n");
+                    if (i > rowIndex && strDatas[0] != null) {
+                        for (int col: colIndexs) {
+                            data.add(Double.parseDouble(strDatas[col]));
+                        }
                         dataList.add(data);
                     }
                     i++;
