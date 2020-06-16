@@ -11,6 +11,67 @@ import java.util.stream.Collectors;
  * @Description:map集合排序类
  **/
 public class MapSortUtils {
+
+
+   /**
+   * @Author: zhaobc
+   * @Date: 2020/6/16 22:26
+   * @Description: 按键升序排列
+   **/
+    public static <K, V> Map<K, V> sortByKeyAsc(Map<K, V> originMap) {
+        if (originMap == null) {
+            return null;
+        }
+        return sort(originMap, comparatorByKeyAsc);
+    }
+
+    /**
+    * @Author: zhaobc
+    * @Date: 2020/6/16 22:27
+    * @Description: 按键降序排列
+    **/
+    public static <K, V> Map<K, V> sortByKeyDesc(Map<K, V> originMap) {
+        if (originMap == null) {
+            return null;
+        }
+        return sort(originMap, comparatorByKeyDesc);
+    }
+
+
+    /**
+    * @Author: zhaobc
+    * @Date: 2020/6/16 22:27
+    * @Description: 按值升序排列
+    **/
+    public static <K, V> Map<K, V> sortByValueAsc(Map<K, V> originMap) {
+        if (originMap == null) {
+            return null;
+        }
+        return sort(originMap, comparatorByValueAsc);
+    }
+
+    /**
+    * @Author: zhaobc
+    * @Date: 2020/6/16 22:27
+    * @Description: 按值降序排列
+    **/
+    public static <K, V> Map<K, V> sortByValueDesc(Map<K, V> originMap) {
+        if (originMap == null) {
+            return null;
+        }
+        return sort(originMap, comparatorByValueDesc);
+    }
+
+    /**
+    * @Author: zhaobc
+    * @Date: 2020/6/16 22:28
+    * @Description: 排序主方法
+    **/
+    private static <K, V> Map<K, V> sort(Map<K, V> originMap, Comparator<Map.Entry> comparator) {
+        return originMap.entrySet().stream().sorted(comparator).collect(
+             Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
+    }
+
     private static Comparator<Map.Entry> comparatorByKeyAsc = (Map.Entry o1, Map.Entry o2) -> {
         if (o1.getKey() instanceof Comparable) {
             return ((Comparable) o1.getKey()).compareTo(o2.getKey());
@@ -41,54 +102,4 @@ public class MapSortUtils {
         }
         throw new UnsupportedOperationException("值的类型尚未实现Comparable接口");
     };
-
-    /**
-     * 按键升序排列
-     */
-    public static <K, V> Map<K, V> sortByKeyAsc(Map<K, V> originMap) {
-        if (originMap == null) {
-            return null;
-        }
-        return sort(originMap, comparatorByKeyAsc);
-    }
-
-    /**
-     * 按键降序排列
-     */
-    public static <K, V> Map<K, V> sortByKeyDesc(Map<K, V> originMap) {
-        if (originMap == null) {
-            return null;
-        }
-        return sort(originMap, comparatorByKeyDesc);
-    }
-
-
-    /**
-     * 按值升序排列
-     */
-    public static <K, V> Map<K, V> sortByValueAsc(Map<K, V> originMap) {
-        if (originMap == null) {
-            return null;
-        }
-        return sort(originMap, comparatorByValueAsc);
-    }
-
-    /**
-     * 按值降序排列
-     */
-    public static <K, V> Map<K, V> sortByValueDesc(Map<K, V> originMap) {
-        if (originMap == null) {
-            return null;
-        }
-        return sort(originMap, comparatorByValueDesc);
-    }
-
-    private static <K, V> Map<K, V> sort(Map<K, V> originMap, Comparator<Map.Entry> comparator) {
-        return originMap.entrySet()
-                .stream()
-                .sorted(comparator)
-                .collect(
-                        Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
-                                LinkedHashMap::new));
-    }
 }

@@ -88,7 +88,7 @@ public class RedisUtils {
     /**
      * @Author: zhaobc
      * @Date: 2020/5/26 15:33
-     * @Description: 【正循】存储REDIS队列 顺序存储字节类型数据
+     * @Description: 存储REDIS队列  队列首插入
      **/
     public static void lpush(String key, String value) {
 
@@ -109,7 +109,7 @@ public class RedisUtils {
     /**
      * @Author: zhaobc
      * @Date: 2020/5/26 15:34
-     * @Description: 【反序】存储REDIS队列 反向存储字节类型数据
+     * @Description: 存储REDIS队列 队列末尾插入
      **/
     public static void rpush(String key, String value) {
         Jedis jedis = null;
@@ -132,7 +132,7 @@ public class RedisUtils {
     /**
      * @Author: zhaobc
      * @Date: 2020/5/26 15:35
-     * @Description: 【先进后出】获取队列字节类型数据
+     * @Description: 获取队列第一个数据
      **/
     public static String lpop(String key) {
         String value = null;
@@ -152,13 +152,10 @@ public class RedisUtils {
     }
 
     /**
-     * 【先进先出】获取队列字节类型数据
-     *
-     * @param key
-     * @return
-     * @author:zhaobc
-     * @creatTime:2019年2月18日 - 下午2:45:36
-     */
+    * @Author: zhaobc
+    * @Date: 2020/6/16 23:12
+    * @Description: 获取队列最后一个数据
+    **/
     public static String rpop(String key) {
         String value = null;
         Jedis jedis = null;

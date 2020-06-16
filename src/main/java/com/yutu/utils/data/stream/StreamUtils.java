@@ -1,6 +1,10 @@
 package com.yutu.utils.data.stream;
 
+import com.yutu.entity.Blacklist;
+import com.yutu.entity.ConfigConstants;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,5 +51,12 @@ public class StreamUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        //序列话黑名单
+        StreamUtils.<ConfigConstants>writeObject(new ArrayList<>(), new File("C:\\blacklist.zbc"));
+        //反序列化黑名单
+        List<ConfigConstants> black = StreamUtils.<ConfigConstants>readObjectForList(new File("C:\\blacklist.zbc"));
     }
 }
