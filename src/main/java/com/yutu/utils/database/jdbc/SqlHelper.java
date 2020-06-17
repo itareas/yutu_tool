@@ -47,14 +47,10 @@ public class SqlHelper {
      * @Description: 加载驱动，只需要一次
      **/
     static {
-//        driver = ConfigConstants.MYSQL_DRIVER;
-//        url = ConfigConstants.MYSQL_URL;
-//        userName = ConfigConstants.MYSQL_USERNAME;
-//        password = ConfigConstants.MYSQL_PASSWORD;
-        driver = "oracle.jdbc.OracleDriver";
-        url = "jdbc:oracle:thin:@192.168.4.25:1521:ORCL";
-        userName = "REPORTSXYD";
-        password = "REPORTSXYD";
+        driver = ConfigConstants.MYSQL_DRIVER;
+        url = ConfigConstants.MYSQL_URL;
+        userName = ConfigConstants.MYSQL_USERNAME;
+        password = ConfigConstants.MYSQL_PASSWORD;
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
@@ -69,7 +65,7 @@ public class SqlHelper {
      * @Date: 2020/3/26 13:21
      * @Description: 得到连接
      **/
-    public static Connection getConnection() {
+    private static Connection getConnection() {
         try {
             conn = DriverManager.getConnection(url, userName, password);
         } catch (SQLException e) {
@@ -183,7 +179,7 @@ public class SqlHelper {
     /**
      * @Author: zhaobc
      * @Date: 2020/3/26 13:22
-     * @Description: 存储过程
+     * @Description: 执行存储过程
      **/
     public static void callProc(String sql, String[] parameters) {
         try {
@@ -295,6 +291,6 @@ public class SqlHelper {
 //        userName = "sa";
 //        password = "1234";
 
-        executeQuery("select * from BUS_REVIEWERRO",null);
+        executeQuery("select * from BUS_REVIEWERRO", null);
     }
 }

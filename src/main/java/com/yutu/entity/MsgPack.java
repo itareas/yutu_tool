@@ -9,6 +9,17 @@ public class MsgPack<T> {
 
     /**
     * @Author: zhaobc
+    * @Date: 2020/6/17 22:34
+    * @Description: 构造函数
+    **/
+    public MsgPack(int status, String msg, T data) {
+        this.status = status;
+        this.msg = msg;
+        this.data = data;
+    }
+
+    /**
+    * @Author: zhaobc
     * @Date: 2019-12-23 10:24
     * @Description: 构造函数 设置默认值
     **/
