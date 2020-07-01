@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.yutu.entity.chart.ChartData;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -155,17 +156,17 @@ public class JfreeChartUtils {
      * @param data  折线图数据集
      * @param is3D   是否3D生成
      */
-	public static JFreeChart getLineChart(String title,LineChart data,boolean is3D,String xName,String yName){
+	public static JFreeChart getLineChart(String title, ChartData data, boolean is3D, String xName, String yName){
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		//图例数据
-		List<String> navdata = data.getNavdata();
+		List<String> navdata = data.getLegend();
 		//X轴数据
-		List<String> xAxisdata = data.getxAxisdata();
+		List<String> xAxisdata = data.getxAxis();
 		
 		for(int i = 0;i < navdata.size();i++){
 		String navName = navdata.get(i);
 		
-		List<Double> dataList = data.getOpinionData().get(i).getData();
+		List<Double> dataList = data.getData().get(i);
 		for(int j = 0; j< xAxisdata.size();j++){
 			String date = xAxisdata.get(j);
 			double count=0;
@@ -240,15 +241,15 @@ public class JfreeChartUtils {
      * @param data   柱状图数据集
      * @param is3D   是否3D生成
      */
-	public static JFreeChart getBarChart(String title,BarChart data,boolean is3D,String xName,String yName){
+	public static JFreeChart getBarChart(String title, ChartData data, boolean is3D, String xName, String yName){
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		//图例
-		List<String> navdata = data.getNavdata();
+		List<String> navdata = data.getLegend();
 		//X轴数据
-		List<String> xAxisdata = data.getxAxisdata();
+		List<String> xAxisdata = data.getxAxis();
 		for(int i = 0;i < navdata.size();i++){
 			String navName = navdata.get(i);
-			List<Double> dataList = data.getOpinionData().get(i).getData();
+			List<Double> dataList = data.getData().get(i);
 			for(int j = 0; j< xAxisdata.size();j++){
 				String date = xAxisdata.get(j);
 				Double count = dataList.get(j);

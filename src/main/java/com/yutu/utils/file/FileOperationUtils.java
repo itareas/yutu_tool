@@ -97,7 +97,7 @@ public class FileOperationUtils {
                 StringBuffer sb = new StringBuffer();
                 String text = null;
                 while ((text = bufferedReader.readLine()) != null) {
-                    String[] texts = text.split(split);
+                    String[] texts = text.trim().split(split);
                     if (i > index && texts[0] != null && texts[0].trim().length() > 0) {
                         Map<String, Object> mapData = new HashMap<>();
                         for (int j = 0; j < texts.length; j++) {
@@ -196,9 +196,9 @@ public class FileOperationUtils {
                 int i = 0;
                 while ((text = bufferedReader.readLine()) != null) {
                     List<Double> data = new ArrayList<>();
-                    String[] strDatas = text.split(split);
+                    String[] strDatas = text.trim().split(split);
                     if (i > rowIndex && strDatas[0] != null) {
-                        for (int col: colIndexs) {
+                        for (int col : colIndexs) {
                             data.add(Double.parseDouble(strDatas[col]));
                         }
                         dataList.add(data);
@@ -416,4 +416,6 @@ public class FileOperationUtils {
         //删除空文件夹
         return dir.delete();
     }
+
+
 }
