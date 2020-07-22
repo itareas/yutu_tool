@@ -1,10 +1,14 @@
-package com.yutu.controller.file;
+package com.yutu.controller.model;
 
+import com.yutu.dao.IDatabaseDao;
+import com.yutu.dao.impl.DatabaseDaoImpl;
+import com.yutu.utils.gis.GPSUtils;
 import com.yutu.utils.myutils.ReadFile;
-import org.springframework.util.ResourceUtils;
+import javafx.geometry.Point2D;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -15,8 +19,10 @@ import java.util.*;
  * @Description:数据处理工具
  **/
 @RestController
-@RequestMapping(value = "dataprocessing")
+@RequestMapping(value = "data")
 public class DataProcessingController {
+
+    private IDatabaseDao iDatabaseDao=new DatabaseDaoImpl();
 
     /**
      * @Author: zhaobc
@@ -79,15 +85,43 @@ public class DataProcessingController {
         headList.add("so2");
         headList.add("so4");
         //地址
-        String outputPath="D:\\attachment\\model\\datatemp\\pingdingshan\\output\\" + (int) x + "_" + (int) y + "_correcting";
+        String outputPath = "D:\\attachment\\model\\datatemp\\pingdingshan\\output\\" + (int) x + "_" + (int) y + "_correcting";
         //输出结果
         boolean bool = ReadFile.writeCsv(headList, dataList, outputPath);
         if (bool) {
-            return outputPath+".csv";
+            return outputPath + ".csv";
         } else {
             return bool;
         }
     }
+
+
+    /**
+     * @Author: zhaobc
+     * @Date: 2020/7/21 16:19
+     * @Description: 判断经纬度是否在范围内
+     **/
+    @RequestMapping(value = "rangejudge")
+    public Object rangejudge(double lon, double lat, int range, String region) {
+        Map<String, String> mapResult = new HashMap<>();
+        List<Map<String, Object>> sourcesList = iDatabaseDao.getSourceslist(region);
+        Point2D point = new Point2D(lon, lat);
+        for (Map<String, Object> mapSource : sourcesList) {
+            double lonTwo =  mapSource.get("lon")==null?0:(double) mapSource.get("lon");
+            double latTwo =   mapSource.get("lat")==null?0:(double) mapSource.get("lat");
+            String uuid = mapSource.get("uuid").toString();
+            Point2D pointX = new Point2D(lonTwo, lat);
+            double x = GPSUtils.getDistance(point, pointX) / 1000.00;
+            Point2D pointY = new Point2D(lon, latTwo);
+            double y = GPSUtils.getDistance(point, pointX) / 1000.00;
+            if (x >= range || y >= range) {
+//               int delIndex= iDatabaseDao.delSourceslist(uuid);
+               mapResult.put(uuid, "x:" + x + "; y:" + y);
+            }
+        }
+        return mapResult;
+    }
+
 
     /**
      * @Author: zhaobc

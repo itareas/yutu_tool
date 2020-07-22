@@ -6,4 +6,5 @@ package com.yutu.controller;
  * @Description:
  */
 public class HomeController {
+    
 }
